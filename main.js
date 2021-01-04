@@ -8,84 +8,58 @@ You have 30 mins, if you run out of time, submit the form anyway.
 Once you click “Start” you cannot pause the countdown
 Don’t delete the main function*/
 
-const letras = 'abcdefghijklmnopqrstuvxyz';
-let words = [];
-let letra1 = '';
-let letra2 = '';
-let letra3 = '';
-let letra4 = '';
-let letra5 = '';
-let word = '';
-let random = 0;
-let size = 0;
-let cont = 0;
-let temp = [];
+const geraTodasAsLetras = () => {
+    let arrayLetras = []
+    for (let letra = 97; letra < 123; letra++) {
+        arrayLetras.push(String.fromCharCode(letra))
+    }
+    return arrayLetras
+}
 
-const geraArrayPalavras = (tamanho) =>{
-    for (i=0;i<tamanho;i++){
-        size = Math.floor((Math.random()*(6-3))+3);
-        temp = geraPalavra(size);
+//const letras = 'abcdefghijklmnopqrstuvxyz';
+const letras = geraTodasAsLetras()
+let cont = 0;
+
+const geraTamanhoAleatório = (min, max) => Math.floor((Math.random() * (max - min)) + min);
+
+const pegaLetraAleatória = () => letras[Math.floor(Math.random() * 24)];
+
+const geraArrayPalavras = (tamanho) => {
+    let words = [];
+    for (let i = 0; i < tamanho; i++) {
+        const size = geraTamanhoAleatório(3, 6)
+        const temp = geraPalavra(size);
         words.push(temp);
         contaPalindromo(words);
     }
 }
 
 const geraPalavra = (size) => {
-    if (size === 3){
-        random = Math.floor(Math.random()*24);
-        letra1 = letras.split("")[random];
-        random = Math.floor(Math.random()*24); 
-        letra2 = letras.split("")[random];
-        random = Math.floor(Math.random()*24);
-        letra3 = letras.split("")[random];
-        word = letra1+letra2+letra3;    
-        return word;
-    }else if(size===4){
-        random = Math.floor(Math.random()*24);
-        letra1 = letras.split("")[random];
-        random = Math.floor(Math.random()*24); 
-        letra2 = letras.split("")[random];
-        random = Math.floor(Math.random()*24);
-        letra3 = letras.split("")[random];
-        random = Math.floor(Math.random()*24);
-        letra4 = letras.split("")[random];
-        word = letra1+letra2+letra3+letra4; 
-        return word;
-    }else{
-        random = Math.floor(Math.random()*24);
-        letra1 = letras.split("")[random];
-        random = Math.floor(Math.random()*24); 
-        letra2 = letras.split("")[random];
-        random = Math.floor(Math.random()*24);
-        letra3 = letras.split("")[random];
-        random = Math.floor(Math.random()*24);
-        letra4 = letras.split("")[random];
-        random = Math.floor(Math.random()*24); 
-        letra5 = letras.split("")[random];
-        word = letra1+letra2+letra3+letra4+letra5;    
-        return word;
+    let letrasArray = []
+    let word = '';
+
+    for (let i = 0; i < size; i++) {
+        letrasArray.push(pegaLetraAleatória())
     }
 
-
+    word = letrasArray.join('')
+    return word;
 }
 
+const contaPalindromo = (str) => {
+    for (let i = 0; i < str.length / 2; i++) {
+        if (str[i] != str[str.length - i - 1]) {
+            return false
+        } else {
+            cont++;
+            return console.log(str);
+        }
+    }
 
-const contaPalindromo = (str) =>{
-    const contaPalindromo = (str) =>{
-        for(var i = 0; i < str.length / 2; i++){
-            if (str[i] != str[str.length - i - 1]) {
-                return false
-            }else{
-                cont ++;
-                return console.log(str); 
-            }
-        } 
-    }    
 }
 
 
 geraArrayPalavras(10000);
 console.log(cont);
-    
 
 
